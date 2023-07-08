@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bptf2bgyum7ev"
-path="res://.godot/imported/heroStandFwd.png-9b21e71c3241abbc8f7f61a6d5987066.ctex"
+uid="uid://b2p0aexjsahdb"
+path="res://.godot/imported/heroStandBkd-Sheet.png-0414bf6edd4c90d1204afc577304fd1f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/heroStandFwd.png"
-dest_files=["res://.godot/imported/heroStandFwd.png-9b21e71c3241abbc8f7f61a6d5987066.ctex"]
+source_file="res://assets/heroStandBkd-Sheet.png"
+dest_files=["res://.godot/imported/heroStandBkd-Sheet.png-0414bf6edd4c90d1204afc577304fd1f.ctex"]
 
 [params]
 
