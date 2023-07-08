@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b2p0aexjsahdb" path="res://assets/heroStandBkd-Sheet.png" id="2_n1gpe"]
 [ext_resource type="Texture2D" uid="uid://bckwwevip3if8" path="res://assets/heroStandFwd-Sheet.png" id="3_xgjsw"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qv1rf"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yotcf"]
 size = Vector2(128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rcgai"]
@@ -133,14 +133,14 @@ animations = [{
 }]
 
 [node name="Hero" type="CharacterBody2D" groups=["hero"]]
-collision_layer = 4
+collision_layer = 12
 motion_mode = 1
 script = ExtResource("1_sjq8v")
 metadata/_edit_horizontal_guides_ = [-96.0, -32.0]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 32)
-shape = SubResource("RectangleShape2D_qv1rf")
+shape = SubResource("RectangleShape2D_yotcf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_daxdw")

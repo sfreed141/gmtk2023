@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://bq0cpheqbesfh"]
+
+[ext_resource type="Script" path="res://game/units/spinny_axe_unit.gd" id="1_66fbr"]
+[ext_resource type="Texture2D" uid="uid://g6echbhh21cm" path="res://assets/kenney_tinydungeon_tilemap.png" id="2_22bkp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fe4d0"]
+atlas = ExtResource("2_22bkp")
+region = Rect2(160, 144, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7bquo"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6bi1n"]
+radius = 8.0
+
+[node name="SpinnyAxeUnit" type="Node2D"]
+script = ExtResource("1_66fbr")
+
+[node name="Pivot" type="Node2D" parent="."]
+position = Vector2(8, 16)
+
+[node name="Sprite2D" type="Sprite2D" parent="Pivot"]
+position = Vector2(-8, -16)
+texture = SubResource("AtlasTexture_fe4d0")
+centered = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Pivot"]
+position = Vector2(-8, -16)
+collision_layer = 9
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/StaticBody2D"]
+position = Vector2(8, 8)
+shape = SubResource("CircleShape2D_7bquo")
+
+[node name="HurtBox" type="Area2D" parent="Pivot"]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Pivot/HurtBox"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_6bi1n")
+
+[connection signal="body_entered" from="Pivot/HurtBox" to="." method="_on_hurt_box_body_entered"]

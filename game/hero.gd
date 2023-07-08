@@ -2,6 +2,9 @@ extends CharacterBody2D
 class_name Hero
 
 signal path_finished()
+signal health_changed(hp)
+
+var health = 100
 
 const SPEED = 100.0
 
@@ -29,3 +32,6 @@ func _physics_process(delta: float) -> void:
 	velocity = direction * SPEED
 	move_and_slide()
 	
+func hit(amount):
+	health -= amount
+	health_changed.emit(health)
