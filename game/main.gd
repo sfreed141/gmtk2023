@@ -4,17 +4,18 @@ extends Node
 @onready var hud: Control = $UI/HUD
 @onready var round_over_label: Label = $UI/HUD/RoundOverLabel
 @onready var current_round_label = $UI/HUD/CurrentRoundLabel
+@onready var hero_level_label = $UI/HUD/HeroLevelLabel
 
-@onready var player: Player = $World/Player
 @onready var world: Node2D = $World
 
+const PLAYER_SCENE = preload("res://game/player.tscn")
 const UNIT_SCENE = preload("res://game/units/unit.tscn")
-const LEVEL_NODE_NAME := "Level"
 const PLAYER_SPAWN_GROUPNAME := "player_spawn"
 const HERO_GROUPNAME := "hero"
 
 const FINAL_LEVEL = 5
 var hero: Hero
+var hero_xp := 0	# used to persist the xp between rounds
 var level: Node
 var round_level = 1
 
@@ -39,16 +40,25 @@ func start_game():
 	
 	if startup_level:
 		level = startup_level.instantiate()
-		level.name = LEVEL_NODE_NAME
-		world.add_child(level)
+		level.name = "level"
+		world.add_child(level, true)
 		
-		var player_spawn: Node2D = get_tree().get_first_node_in_group(PLAYER_SPAWN_GROUPNAME)
-		if player_spawn:
-			player.global_position = player_spawn.global_position
-		else:
-			push_error("Level '%s' doesn't have a node in group '%s'" % [startup_level.resource_name, PLAYER_SPAWN_GROUPNAME])
+		if not world.has_node("player"):
+			var player = PLAYER_SCENE.instantiate()
+			player.name = "player"
+			player.visible = false
+			var player_spawn: Node2D = get_tree().get_first_node_in_group(PLAYER_SPAWN_GROUPNAME)
+			if player_spawn:
+				player.global_position = player_spawn.global_position
+			else:
+				push_error("Level '%s' doesn't have a node in group '%s'" % [startup_level.resource_name, PLAYER_SPAWN_GROUPNAME])
+			world.add_child(player, true)
 		
 		hero = get_tree().get_first_node_in_group(HERO_GROUPNAME)
+		hero.xp = hero_xp
+		print("hero xp: %d" % hero_xp)
+		hero.apply_level_stats()
+		update_hero_label()
 		hero.path_finished.connect(_on_hero_path_finished)
 		hero.health_changed.connect(_on_hero_health_changed)
 	else:
@@ -59,6 +69,9 @@ func _on_hero_path_finished():
 
 func update_round_label():
 	current_round_label.text = "Round %d" % round_level
+
+func update_hero_label():
+	hero_level_label.text = "Hero Level: %d" % hero.level
 
 func end_round(success: bool):
 	if success:
@@ -71,13 +84,16 @@ func end_round(success: bool):
 		round_over_label.text = "Hero wasn't strong enough :("
 		round_level = 1
 
+	hero_xp = hero.xp
+
 	round_over_label.show()
 	get_tree().paused = true
 	await get_tree().create_timer(3).timeout
 	get_tree().paused = false
 	round_over_label.hide()
 	
-	level.queue_free()
+	for c in world.get_children():
+		c.free()
 	
 	# TODO goto next level or back to level0 depending on success
 	start_game.call_deferred()
