@@ -409,7 +409,7 @@ sources/0 = SubResource("TileSetAtlasSource_8e6vq")
 
 [sub_resource type="Curve2D" id="Curve2D_q67ih"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 129, 52, 0, 0, 0, 0, 131, 161, 0, 0, 0, 0, 60, 166, 0, 0, 0, 0, 61, 286, 0, 0, 0, 0, 283, 269, 0, 0, 0, 0, 368, 84, 0, 0, 0, 0, 491, 201, 0, 0, 0, 0, 489, 438, 0, 0, 0, 0, 597, 442, 0, 0, 0, 0, 595, 56)
+"points": PackedVector2Array(0, 0, 0, 0, 129, 50.875, 0, 0, 0, 0, 131, 161, 0, 0, 0, 0, 60, 166, 0, 0, 0, 0, 61, 286, 0, 0, 0, 0, 283, 269, 0, 0, 0, 0, 368, 84, 0, 0, 0, 0, 491, 201, 0, 0, 0, 0, 489, 438, 0, 0, 0, 0, 597, 442, 0, 0, 0, 0, 595, 56)
 }
 point_count = 10
 
@@ -427,6 +427,7 @@ position = Vector2(289, 236)
 position = Vector2(42, 51)
 
 [node name="Hero" parent="HeroSpawn" node_paths=PackedStringArray("path") instance=ExtResource("2_4eguw")]
+scale = Vector2(0.125, 0.125)
 path = NodePath("../../HeroPath")
 
 [node name="HeroPath" type="Path2D" parent="."]

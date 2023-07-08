@@ -57,10 +57,10 @@ func _on_hero_path_finished():
 	level.queue_free()
 	start_game.call_deferred()
 
-func _on_unit_bar_place_unit(unit_data, unit_position) -> void:
+func _on_unit_bar_place_unit(unit_data, unit_local_position) -> void:
 	var unit = UNIT_SCENE.instantiate()
 	unit.unit_data = unit_data
-	unit.global_position = unit_position
+	unit.position = unit_local_position
 	world.add_child(unit)
 
 
