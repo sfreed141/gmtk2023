@@ -3,6 +3,7 @@ class_name Hero
 
 signal path_finished
 signal health_changed(hp)
+signal xp_changed(xp)
 
 var health = 100
 
@@ -10,7 +11,8 @@ const SPEED = 100.0
 const ATTACK_RANGE = 10
 
 var level = 1
-var xp = 0
+var xp = 0: set = set_xp
+var next_lv_xp = 0
 var attack_damage = 20  # TODO increase on level up
 
 @export var path: Path2D
@@ -21,6 +23,9 @@ var _path_index := 0
 
 var target_unit: Node2D
 
+func set_xp(a_value):
+	xp = a_value
+	xp_changed.emit(xp)
 
 func _ready() -> void:
 	animated_sprite_2d.speed_scale = 2
@@ -38,7 +43,7 @@ func apply_level_stats():
 	level = 1
 	while level - 1 < required_xp.size() and xp >= required_xp[level - 1]:
 		level += 1
-
+	next_lv_xp = required_xp[level - 1]
 	level = min(required_xp.size(), level)
 	health = health_per_level[level - 1]
 	attack_damage = damage_per_level[level - 1]

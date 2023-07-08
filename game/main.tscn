@@ -140,12 +140,24 @@ offset_right = 108.0
 offset_bottom = 53.0
 text = "Hero Level: 1"
 
-[node name="ProgressBar" type="ProgressBar" parent="UI/HUD"]
+[node name="HPBar" type="ProgressBar" parent="UI/HUD"]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 453.0
 offset_right = 229.0
 offset_bottom = 476.0
+tooltip_text = "Health"
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_1eqly")
+theme_override_styles/fill = SubResource("StyleBoxFlat_awwn5")
+rounded = true
+
+[node name="XPBar" type="ProgressBar" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 423.0
+offset_right = 229.0
+offset_bottom = 446.0
 tooltip_text = "Health"
 mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_1eqly")

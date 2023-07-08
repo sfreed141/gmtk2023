@@ -9,7 +9,8 @@ extends Node
 @onready var world: Node2D = $World
 
 const PLAYER_SCENE = preload("res://game/player.tscn")
-@onready var healthbar: ProgressBar = $UI/HUD/ProgressBar
+@onready var healthbar: ProgressBar = $UI/HUD/HPBar
+@onready var xpbar: ProgressBar = $UI/HUD/XPBar
 
 const UNIT_SCENE = preload("res://game/units/unit.tscn")
 const PLAYER_SPAWN_GROUPNAME := "player_spawn"
@@ -37,6 +38,10 @@ func _ready():
 func _init_hp_bar():
 	healthbar.max_value = get_tree().get_first_node_in_group(HERO_GROUPNAME).health
 	healthbar.value = get_tree().get_first_node_in_group(HERO_GROUPNAME).health
+
+func _init_xp_bar():
+	xpbar.max_value = get_tree().get_first_node_in_group(HERO_GROUPNAME).next_lv_xp
+	xpbar.value = get_tree().get_first_node_in_group(HERO_GROUPNAME).xp
 
 
 func start_game():
@@ -68,6 +73,7 @@ func start_game():
 				)
 			world.add_child(player, true)
 		_init_hp_bar()
+		_init_xp_bar()
 		hero = get_tree().get_first_node_in_group(HERO_GROUPNAME)
 		hero.xp = hero_xp
 		print("hero xp: %d" % hero_xp)
@@ -75,6 +81,7 @@ func start_game():
 		update_hero_label()
 		hero.path_finished.connect(_on_hero_path_finished)
 		hero.health_changed.connect(_on_hero_health_changed)
+		hero.xp_changed.connect(_on_hero_xp_changed)
 	else:
 		push_error("No startup_level specified!")
 
@@ -126,6 +133,11 @@ func _on_hero_health_changed(hp):
 	if hp <= 0:
 		end_round(false)
 
+func _on_hero_xp_changed(xp):
+	print("Hero has %d xp" % xp)
+	xpbar.value = xp
+	if xp < 0:
+		print("Fuck do I know")
 
 func _on_unit_bar_place_unit(unit_data: UnitData, unit_local_position) -> void:
 	var scene = unit_data.unit_scene if unit_data.unit_scene else UNIT_SCENE
