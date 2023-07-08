@@ -27,15 +27,24 @@ func _get_snapped_world_local_mouse_position():
 	var world_position = _world.get_local_mouse_position()
 	return world_position.snapped(TILE_DIMENSION)
 
-func get_snapped_viewport_mouse_position():
-	var world_position = _get_snapped_world_local_mouse_position()
-	return _world.get_global_transform_with_canvas() * world_position
-
+func is_unit_placement_valid(world_local_position: Vector2):
+	var query := PhysicsPointQueryParameters2D.new()
+	query.collision_mask = 1
+	query.position = world_local_position
+	var space_state := _world.get_world_2d().direct_space_state
+	var query_result = space_state.intersect_point(query)
+	return query_result.is_empty()
 
 func _physics_process(delta: float) -> void:
 	if _selected_unit.visible:
-		var viewport_position = get_snapped_viewport_mouse_position()
+		var world_position = _get_snapped_world_local_mouse_position()
+		var viewport_position = _world.get_global_transform_with_canvas() * world_position
 		_selected_unit.global_position = get_canvas_transform().inverse() * viewport_position
+		
+		if is_unit_placement_valid(world_position):
+			_selected_unit.modulate = Color.WHITE
+		else:
+			_selected_unit.modulate = Color.RED
 
 func _gui_input(event: InputEvent) -> void:
 	if (
@@ -44,4 +53,5 @@ func _gui_input(event: InputEvent) -> void:
 		and event.is_pressed()
 	):
 		var world_position = _get_snapped_world_local_mouse_position()
-		place_unit.emit(_selected_unit.unit_data, world_position)
+		if is_unit_placement_valid(world_position):
+			place_unit.emit(_selected_unit.unit_data, world_position)
