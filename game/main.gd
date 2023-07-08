@@ -8,7 +8,12 @@ extends Node
 
 @onready var world: Node2D = $World
 
+<<<<<<< HEAD
 const PLAYER_SCENE = preload("res://game/player.tscn")
+=======
+@onready var healthbar: ProgressBar = $UI/HUD/ProgressBar
+
+>>>>>>> a55ad9f (add hp bar)
 const UNIT_SCENE = preload("res://game/units/unit.tscn")
 const PLAYER_SPAWN_GROUPNAME := "player_spawn"
 const HERO_GROUPNAME := "hero"
@@ -20,7 +25,7 @@ var level: Node
 var round_level = 1
 
 @export var startup_level: PackedScene
-@export var start_at_main_menu := true
+@export var start_at_main_menu := true	
 
 func _ready():
 	if start_at_main_menu:
@@ -29,6 +34,10 @@ func _ready():
 		main_menu.show()
 	else:
 		start_game()
+
+func _init_hp_bar():
+	healthbar.max_value=get_tree().get_first_node_in_group(HERO_GROUPNAME).health
+	healthbar.value=get_tree().get_first_node_in_group(HERO_GROUPNAME).health
 
 func start_game():
 	main_menu.hide()
@@ -40,6 +49,7 @@ func start_game():
 	
 	if startup_level:
 		level = startup_level.instantiate()
+<<<<<<< HEAD
 		level.name = "level"
 		world.add_child(level, true)
 		
@@ -53,6 +63,19 @@ func start_game():
 			else:
 				push_error("Level '%s' doesn't have a node in group '%s'" % [startup_level.resource_name, PLAYER_SPAWN_GROUPNAME])
 			world.add_child(player, true)
+=======
+		level.name = LEVEL_NODE_NAME
+		
+		level.ready.connect(_init_hp_bar)
+		world.add_child(level)
+		
+		var player_spawn: Node2D = get_tree().get_first_node_in_group(PLAYER_SPAWN_GROUPNAME)
+		_init_hp_bar()
+		if player_spawn:
+			player.global_position = player_spawn.global_position
+		else:
+			push_error("Level '%s' doesn't have a node in group '%s'" % [startup_level.resource_name, PLAYER_SPAWN_GROUPNAME])
+>>>>>>> a55ad9f (add hp bar)
 		
 		hero = get_tree().get_first_node_in_group(HERO_GROUPNAME)
 		hero.xp = hero_xp
@@ -82,10 +105,13 @@ func end_round(success: bool):
 			round_over_label.text = "Dungeon Cleared!"
 	else:
 		round_over_label.text = "Hero wasn't strong enough :("
+<<<<<<< HEAD
 		round_level = 1
 
 	hero_xp = hero.xp
 
+=======
+>>>>>>> a55ad9f (add hp bar)
 	round_over_label.show()
 	get_tree().paused = true
 	await get_tree().create_timer(3).timeout
@@ -100,6 +126,7 @@ func end_round(success: bool):
 
 func _on_hero_health_changed(hp):
 	print("Hero has %d health" % hp)
+	healthbar.value = hp
 	if hp <= 0:
 		end_round(false)
 

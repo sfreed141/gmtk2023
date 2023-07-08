@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cwcwu4ffdagc6"]
+[gd_scene load_steps=11 format=3 uid="uid://cwcwu4ffdagc6"]
 
 [ext_resource type="Script" path="res://game/main.gd" id="1_7po52"]
 [ext_resource type="PackedScene" uid="uid://rwd0dn0askpt" path="res://game/player.tscn" id="1_pqh5f"]
@@ -8,6 +8,13 @@
 [ext_resource type="Resource" uid="uid://dumv0rkdpmdax" path="res://game/units/data/magic_turret.tres" id="5_10ojq"]
 [ext_resource type="Resource" uid="uid://bu2c2bfkmtna6" path="res://game/units/data/rat_mob.tres" id="6_rrv6e"]
 [ext_resource type="Resource" uid="uid://cn8auxq0cuocm" path="res://game/units/data/spinny_axe.tres" id="7_2fl0i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1eqly"]
+bg_color = Color(0.627451, 0.588235, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awwn5"]
+bg_color = Color(0.898039, 0, 0.00784314, 1)
+border_color = Color(0.596078, 0.596078, 0.596078, 1)
 
 [node name="Main" type="Node"]
 script = ExtResource("1_7po52")
@@ -117,6 +124,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Dungeon Cleared!"
 
+<<<<<<< HEAD
 [node name="CurrentRoundLabel" type="Label" parent="UI/HUD"]
 layout_mode = 0
 offset_left = 8.0
@@ -132,6 +140,19 @@ offset_top = 27.0
 offset_right = 108.0
 offset_bottom = 53.0
 text = "Hero Level: 1"
+=======
+[node name="ProgressBar" type="ProgressBar" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 453.0
+offset_right = 229.0
+offset_bottom = 476.0
+tooltip_text = "Health"
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_1eqly")
+theme_override_styles/fill = SubResource("StyleBoxFlat_awwn5")
+rounded = true
+>>>>>>> a55ad9f (add hp bar)
 
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/StartButton" to="." method="_on_main_menu_start_button_pressed"]
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_main_menu_quit_button_pressed"]
