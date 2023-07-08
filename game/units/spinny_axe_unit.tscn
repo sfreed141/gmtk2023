@@ -26,7 +26,8 @@ centered = false
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Pivot"]
 position = Vector2(-8, -16)
-collision_layer = 9
+disable_mode = 2
+collision_layer = 25
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/StaticBody2D"]
@@ -34,11 +35,22 @@ position = Vector2(8, 8)
 shape = SubResource("CircleShape2D_7bquo")
 
 [node name="HurtBox" type="Area2D" parent="Pivot"]
+disable_mode = 2
 collision_layer = 0
 collision_mask = 8
 monitorable = false
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Pivot/HurtBox"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_6bi1n")
+
+[node name="HitBox" type="Area2D" parent="Pivot"]
+disable_mode = 2
+collision_layer = 16
+collision_mask = 16
+monitoring = false
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Pivot/HitBox"]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_6bi1n")
 
