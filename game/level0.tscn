@@ -423,7 +423,7 @@ layer_0/tile_data = PackedInt32Array(0, 262144, 3, 65536, 262144, 3, 131072, 262
 [node name="PlayerSpawn" type="Node2D" parent="." groups=["player_spawn"]]
 position = Vector2(289, 236)
 
-[node name="HeroSpawn" type="Node2D" parent="." groups=["hero_spawn"]]
+[node name="HeroSpawn" type="Node2D" parent="."]
 position = Vector2(42, 51)
 
 [node name="Hero" parent="HeroSpawn" node_paths=PackedStringArray("path") instance=ExtResource("2_4eguw")]
