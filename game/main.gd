@@ -76,6 +76,7 @@ func _on_hero_health_changed(hp):
 func _on_unit_bar_place_unit(unit_data: UnitData, unit_local_position) -> void:
 	var scene = unit_data.unit_scene if unit_data.unit_scene else UNIT_SCENE
 	var unit = scene.instantiate()
+	unit.unit_level = 1		# TODO set based on round
 	unit.unit_data = unit_data
 	unit.position = unit_local_position
 	world.add_child(unit)
