@@ -94,15 +94,18 @@ func update_hero_label():
 func end_round(success: bool):
 	if success:
 		round_level += 1
+		hero_xp = hero.xp
 		if round_level == FINAL_LEVEL:
 			round_over_label.text = "YOU WIN!"
+			round_level = 1
+			hero_xp = 0
 		else:
 			round_over_label.text = "Dungeon Cleared!"
 	else:
 		round_over_label.text = "Hero wasn't strong enough :("
 		round_level = 1
+		hero_xp = 0
 
-	hero_xp = hero.xp
 
 	round_over_label.show()
 	get_tree().paused = true

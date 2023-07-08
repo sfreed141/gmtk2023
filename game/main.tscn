@@ -139,6 +139,7 @@ offset_top = 27.0
 offset_right = 108.0
 offset_bottom = 53.0
 text = "Hero Level: 1"
+
 [node name="ProgressBar" type="ProgressBar" parent="UI/HUD"]
 layout_mode = 0
 offset_left = 4.0
