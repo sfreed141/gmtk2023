@@ -1,0 +1,105 @@
+[gd_scene load_steps=9 format=3 uid="uid://cwcwu4ffdagc6"]
+
+[ext_resource type="Script" path="res://game/main.gd" id="1_7po52"]
+[ext_resource type="PackedScene" uid="uid://rwd0dn0askpt" path="res://game/player.tscn" id="1_pqh5f"]
+[ext_resource type="PackedScene" uid="uid://cct522b5qqg1p" path="res://game/level0.tscn" id="2_fiv6v"]
+[ext_resource type="Script" path="res://game/unit_bar.gd" id="4_gjpk5"]
+[ext_resource type="PackedScene" uid="uid://hjpgqbf0w5sw" path="res://game/units/unit_slot.tscn" id="4_go1lq"]
+[ext_resource type="Resource" uid="uid://dumv0rkdpmdax" path="res://game/units/data/magic_turret.tres" id="5_10ojq"]
+[ext_resource type="Resource" uid="uid://bu2c2bfkmtna6" path="res://game/units/data/rat_mob.tres" id="6_rrv6e"]
+[ext_resource type="Resource" uid="uid://cn8auxq0cuocm" path="res://game/units/data/spinny_axe.tres" id="7_2fl0i"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_7po52")
+startup_level = ExtResource("2_fiv6v")
+start_at_main_menu = false
+
+[node name="World" type="Node2D" parent="." groups=["world"]]
+
+[node name="Player" parent="World" instance=ExtResource("1_pqh5f")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" type="PanelContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MainMenu"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "GMTK 2023"
+
+[node name="StartButton" type="Button" parent="UI/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[node name="QuitButton" type="Button" parent="UI/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="UnitBar" type="Control" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_gjpk5")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/UnitBar"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="UI/HUD/UnitBar/MarginContainer"]
+layout_mode = 2
+
+[node name="MagicTurret" parent="UI/HUD/UnitBar/MarginContainer/GridContainer" instance=ExtResource("4_go1lq")]
+layout_mode = 2
+unit_data = ExtResource("5_10ojq")
+
+[node name="RatMob" parent="UI/HUD/UnitBar/MarginContainer/GridContainer" instance=ExtResource("4_go1lq")]
+layout_mode = 2
+unit_data = ExtResource("6_rrv6e")
+
+[node name="SpinnyAxe" parent="UI/HUD/UnitBar/MarginContainer/GridContainer" instance=ExtResource("4_go1lq")]
+layout_mode = 2
+unit_data = ExtResource("7_2fl0i")
+
+[node name="SelectedUnit" parent="UI/HUD/UnitBar" instance=ExtResource("4_go1lq")]
+visible = false
+layout_mode = 0
+mouse_filter = 2
+
+[connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/StartButton" to="." method="_on_main_menu_start_button_pressed"]
+[connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_main_menu_quit_button_pressed"]
+[connection signal="place_unit" from="UI/HUD/UnitBar" to="." method="_on_unit_bar_place_unit"]

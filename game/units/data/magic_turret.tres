@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://dumv0rkdpmdax"]
+
+[ext_resource type="Script" path="res://game/units/unit_data.gd" id="1_om4d2"]
+[ext_resource type="Texture2D" uid="uid://dqw23f2v2h7gh" path="res://game/units/data/kenney_tinydungeon_tilemap_atlas.tres" id="2_5ed68"]
+
+[resource]
+script = ExtResource("1_om4d2")
+name = "Magic Turret"
+description = "pew pew"
+texture = ExtResource("2_5ed68")
