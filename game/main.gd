@@ -2,6 +2,7 @@ extends Node
 
 @onready var main_menu: PanelContainer = $UI/MainMenu
 @onready var hud: Control = $UI/HUD
+@onready var round_over_label: Label = $UI/HUD/RoundOverLabel
 
 @onready var player: Player = $World/Player
 @onready var world: Node2D = $World
@@ -9,7 +10,11 @@ extends Node
 const UNIT_SCENE = preload("res://game/units/unit.tscn")
 const LEVEL_NODE_NAME := "Level"
 const PLAYER_SPAWN_GROUPNAME := "player_spawn"
-const HERO_SPAWN_GROUPNAME := "hero_spawn"
+const HERO_GROUPNAME := "hero"
+
+var hero: Hero
+var level: Node
+
 @export var startup_level: PackedScene
 @export var start_at_main_menu := true
 
@@ -27,7 +32,7 @@ func start_game():
 	hud.show()
 
 	if startup_level:
-		var level := startup_level.instantiate()
+		level = startup_level.instantiate()
 		level.name = LEVEL_NODE_NAME
 		world.add_child(level)
 		
@@ -36,8 +41,27 @@ func start_game():
 			player.global_position = player_spawn.global_position
 		else:
 			push_error("Level '%s' doesn't have a node in group '%s'" % [startup_level.resource_name, PLAYER_SPAWN_GROUPNAME])
+		
+		hero = get_tree().get_first_node_in_group(HERO_GROUPNAME)
+		hero.path_finished.connect(_on_hero_path_finished)
 	else:
 		push_error("No startup_level specified!")
+
+func _on_hero_path_finished():
+	round_over_label.show()
+	get_tree().paused = true
+	await get_tree().create_timer(3).timeout
+	get_tree().paused = false
+	round_over_label.hide()
+	
+	level.queue_free()
+	start_game.call_deferred()
+
+func _on_unit_bar_place_unit(unit_data, unit_position) -> void:
+	var unit = UNIT_SCENE.instantiate()
+	unit.unit_data = unit_data
+	unit.global_position = unit_position
+	world.add_child(unit)
 
 
 func _on_main_menu_start_button_pressed() -> void:
@@ -45,10 +69,3 @@ func _on_main_menu_start_button_pressed() -> void:
 
 func _on_main_menu_quit_button_pressed() -> void:
 	get_tree().quit()
-
-
-func _on_unit_bar_place_unit(unit_data, unit_position) -> void:
-	var unit = UNIT_SCENE.instantiate()
-	unit.unit_data = unit_data
-	unit.global_position = unit_position
-	world.add_child(unit)
