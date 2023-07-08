@@ -6,12 +6,13 @@ signal health_changed(hp)
 signal xp_changed(xp)
 
 var health = 100
-
+const required_xp = [100, 300, 600, 1000, 1500]  # this is total xp required, not xp required per level
 const SPEED = 100.0
 const ATTACK_RANGE = 10
 
 var level = 1
 var xp = 0: set = set_xp
+var display_xp = 0
 var next_lv_xp = 0
 var attack_damage = 20  # TODO increase on level up
 
@@ -25,7 +26,11 @@ var target_unit: Node2D
 
 func set_xp(a_value):
 	xp = a_value
-	xp_changed.emit(xp)
+	if level > 1:
+		display_xp = xp - required_xp[level - 2]
+	else:
+		display_xp = xp
+	xp_changed.emit(xp, display_xp)
 
 func _ready() -> void:
 	animated_sprite_2d.speed_scale = 2
@@ -36,14 +41,18 @@ func _ready() -> void:
 
 
 func apply_level_stats():
-	const required_xp = [100, 300, 600, 1000, 1500]  # this is total xp required, not xp required per level
 	const health_per_level = [100, 100, 100, 100, 100]
 	const damage_per_level = [20, 30, 40, 50, 60]
-
 	level = 1
 	while level - 1 < required_xp.size() and xp >= required_xp[level - 1]:
 		level += 1
-	next_lv_xp = required_xp[level - 1]
+	
+	if level > 1:
+		display_xp = xp - required_xp[level - 2]
+		next_lv_xp = required_xp[level - 1] - required_xp[level - 2]
+	else:
+		display_xp = xp
+		next_lv_xp = required_xp[level - 1]
 	level = min(required_xp.size(), level)
 	health = health_per_level[level - 1]
 	attack_damage = damage_per_level[level - 1]

@@ -1,0 +1,169 @@
+[gd_scene load_steps=11 format=3 uid="uid://cwcwu4ffdagc6"]
+
+[ext_resource type="Script" path="res://game/main.gd" id="1_7po52"]
+[ext_resource type="PackedScene" uid="uid://rwd0dn0askpt" path="res://game/player.tscn" id="1_pqh5f"]
+[ext_resource type="PackedScene" uid="uid://cct522b5qqg1p" path="res://game/level0.tscn" id="2_fiv6v"]
+[ext_resource type="Script" path="res://game/unit_bar.gd" id="4_gjpk5"]
+[ext_resource type="PackedScene" uid="uid://hjpgqbf0w5sw" path="res://game/units/unit_slot.tscn" id="4_go1lq"]
+[ext_resource type="Resource" uid="uid://dumv0rkdpmdax" path="res://game/units/data/magic_turret.tres" id="5_10ojq"]
+[ext_resource type="Resource" uid="uid://bu2c2bfkmtna6" path="res://game/units/data/rat_mob.tres" id="6_rrv6e"]
+[ext_resource type="Resource" uid="uid://cn8auxq0cuocm" path="res://game/units/data/spinny_axe.tres" id="7_2fl0i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1eqly"]
+bg_color = Color(0.627451, 0.588235, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awwn5"]
+bg_color = Color(0.898039, 0, 0.00784314, 1)
+border_color = Color(0.596078, 0.596078, 0.596078, 1)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_7po52")
+startup_level = ExtResource("2_fiv6v")
+start_at_main_menu = false
+
+[node name="World" type="Node2D" parent="." groups=["world"]]
+
+[node name="player" parent="World" instance=ExtResource("1_pqh5f")]
+visible = false
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MainMenu" type="PanelContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MainMenu"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "GMTK 2023"
+
+[node name="StartButton" type="Button" parent="UI/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start"
+
+[node name="QuitButton" type="Button" parent="UI/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="HUD" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="UnitBar" type="Control" parent="UI/HUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_gjpk5")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/HUD/UnitBar"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="UI/HUD/UnitBar/MarginContainer"]
+layout_mode = 2
+
+[node name="MagicTurret" parent="UI/HUD/UnitBar/MarginContainer/GridContainer" instance=ExtResource("4_go1lq")]
+layout_mode = 2
+unit_data = ExtResource("5_10ojq")
+
+[node name="RatMob" parent="UI/HUD/UnitBar/MarginContainer/GridContainer" instance=ExtResource("4_go1lq")]
+layout_mode = 2
+unit_data = ExtResource("6_rrv6e")
+
+[node name="SpinnyAxe" parent="UI/HUD/UnitBar/MarginContainer/GridContainer" instance=ExtResource("4_go1lq")]
+layout_mode = 2
+unit_data = ExtResource("7_2fl0i")
+
+[node name="SelectedUnit" parent="UI/HUD/UnitBar" instance=ExtResource("4_go1lq")]
+visible = false
+layout_mode = 0
+mouse_filter = 2
+
+[node name="RoundOverLabel" type="Label" parent="UI/HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Dungeon Cleared!"
+
+[node name="CurrentRoundLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 34.0
+text = "Round 1"
+
+[node name="HeroLevelLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 27.0
+offset_right = 108.0
+offset_bottom = 53.0
+text = "Hero Level: 1"
+
+[node name="HPBar" type="ProgressBar" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 453.0
+offset_right = 229.0
+offset_bottom = 476.0
+tooltip_text = "Health"
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_1eqly")
+theme_override_styles/fill = SubResource("StyleBoxFlat_awwn5")
+rounded = true
+
+[node name="XPBar" type="ProgressBar" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 423.0
+offset_right = 229.0
+offset_bottom = 446.0
+tooltip_text = "Health"
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_1eqly")
+theme_override_styles/fill = SubResource("StyleBoxFlat_awwn5")
+rounded = true
+
+[connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/StartButton" to="." method="_on_main_menu_start_button_pressed"]
+[connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_main_menu_quit_button_pressed"]
+[connection signal="place_unit" from="UI/HUD/UnitBar" to="." method="_on_unit_bar_place_unit"]

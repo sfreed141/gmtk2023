@@ -41,7 +41,7 @@ func _init_hp_bar():
 
 func _init_xp_bar():
 	xpbar.max_value = get_tree().get_first_node_in_group(HERO_GROUPNAME).next_lv_xp
-	xpbar.value = get_tree().get_first_node_in_group(HERO_GROUPNAME).xp
+	xpbar.value = get_tree().get_first_node_in_group(HERO_GROUPNAME).display_xp
 
 
 func start_game():
@@ -73,11 +73,13 @@ func start_game():
 				)
 			world.add_child(player, true)
 		_init_hp_bar()
-		_init_xp_bar()
+
 		hero = get_tree().get_first_node_in_group(HERO_GROUPNAME)
 		hero.xp = hero_xp
 		print("hero xp: %d" % hero_xp)
 		hero.apply_level_stats()
+		print("hero next_lv_xp %d" % hero.next_lv_xp)
+		_init_xp_bar()
 		update_hero_label()
 		hero.path_finished.connect(_on_hero_path_finished)
 		hero.health_changed.connect(_on_hero_health_changed)
@@ -133,9 +135,10 @@ func _on_hero_health_changed(hp):
 	if hp <= 0:
 		end_round(false)
 
-func _on_hero_xp_changed(xp):
+func _on_hero_xp_changed(xp, display_xp):
 	print("Hero has %d xp" % xp)
-	xpbar.value = xp
+	print("Hero has %d display_xp" % display_xp)
+	xpbar.value = display_xp
 	if xp < 0:
 		print("Fuck do I know")
 
