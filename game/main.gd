@@ -8,12 +8,9 @@ extends Node
 
 @onready var world: Node2D = $World
 
-<<<<<<< HEAD
 const PLAYER_SCENE = preload("res://game/player.tscn")
-=======
 @onready var healthbar: ProgressBar = $UI/HUD/ProgressBar
 
->>>>>>> a55ad9f (add hp bar)
 const UNIT_SCENE = preload("res://game/units/unit.tscn")
 const PLAYER_SPAWN_GROUPNAME := "player_spawn"
 const HERO_GROUPNAME := "hero"
@@ -49,7 +46,6 @@ func start_game():
 	
 	if startup_level:
 		level = startup_level.instantiate()
-<<<<<<< HEAD
 		level.name = "level"
 		world.add_child(level, true)
 		
@@ -63,20 +59,7 @@ func start_game():
 			else:
 				push_error("Level '%s' doesn't have a node in group '%s'" % [startup_level.resource_name, PLAYER_SPAWN_GROUPNAME])
 			world.add_child(player, true)
-=======
-		level.name = LEVEL_NODE_NAME
-		
-		level.ready.connect(_init_hp_bar)
-		world.add_child(level)
-		
-		var player_spawn: Node2D = get_tree().get_first_node_in_group(PLAYER_SPAWN_GROUPNAME)
 		_init_hp_bar()
-		if player_spawn:
-			player.global_position = player_spawn.global_position
-		else:
-			push_error("Level '%s' doesn't have a node in group '%s'" % [startup_level.resource_name, PLAYER_SPAWN_GROUPNAME])
->>>>>>> a55ad9f (add hp bar)
-		
 		hero = get_tree().get_first_node_in_group(HERO_GROUPNAME)
 		hero.xp = hero_xp
 		print("hero xp: %d" % hero_xp)
