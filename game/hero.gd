@@ -9,6 +9,7 @@ var health = 100
 const SPEED = 100.0
 const ATTACK_RANGE = 10
 
+var level = 1
 var xp = 0
 var attack_damage = 20	# TODO increase on level up
 
@@ -26,6 +27,19 @@ func _ready() -> void:
 	$Line2D.add_point(global_position)
 	set_physics_process(false)
 	nav_setup.call_deferred()
+
+func apply_level_stats():
+	const required_xp = [ 100, 300, 600, 1000, 1500 ]	# this is total xp required, not xp required per level
+	const health_per_level = [ 100, 100, 100, 100, 100 ]
+	const damage_per_level = [ 20, 30, 40, 50, 60 ]
+	
+	level = 1
+	while level - 1 < required_xp.size() and xp >= required_xp[level - 1]:
+		level += 1
+	
+	level = min(required_xp.size(), level)
+	health = health_per_level[level - 1]
+	attack_damage = damage_per_level[level - 1]
 
 func nav_setup():
 	await get_tree().physics_frame

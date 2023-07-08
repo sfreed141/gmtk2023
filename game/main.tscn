@@ -16,7 +16,7 @@ start_at_main_menu = false
 
 [node name="World" type="Node2D" parent="." groups=["world"]]
 
-[node name="Player" parent="World" instance=ExtResource("1_pqh5f")]
+[node name="player" parent="World" instance=ExtResource("1_pqh5f")]
 visible = false
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -116,6 +116,22 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "Dungeon Cleared!"
+
+[node name="CurrentRoundLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 34.0
+text = "Round 1"
+
+[node name="HeroLevelLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 27.0
+offset_right = 108.0
+offset_bottom = 53.0
+text = "Hero Level: 1"
 
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/StartButton" to="." method="_on_main_menu_start_button_pressed"]
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_main_menu_quit_button_pressed"]
