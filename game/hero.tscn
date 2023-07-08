@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6tb4njluakgs"]
+
+[ext_resource type="Texture2D" uid="uid://g6echbhh21cm" path="res://assets/kenney_tinydungeon_tilemap.png" id="1_gqs22"]
+[ext_resource type="Script" path="res://game/hero.gd" id="1_sjq8v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1tpg0"]
+radius = 8.0
+
+[node name="Hero" type="CharacterBody2D"]
+collision_layer = 4
+motion_mode = 1
+script = ExtResource("1_sjq8v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1tpg0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_gqs22")
+region_enabled = true
+region_rect = Rect2(32, 128, 16, 16)
