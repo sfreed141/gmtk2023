@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cct522b5qqg1p"]
+[gd_scene load_steps=7 format=3 uid="uid://cct522b5qqg1p"]
 
 [ext_resource type="Texture2D" uid="uid://g6echbhh21cm" path="res://assets/kenney_tinydungeon_tilemap.png" id="1_d8h55"]
 [ext_resource type="PackedScene" uid="uid://b6tb4njluakgs" path="res://game/hero.tscn" id="2_4eguw"]
-[ext_resource type="Script" path="res://game/tilemap_navregion.gd" id="2_bodot"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8e6vq"]
 texture = ExtResource("1_d8h55")
@@ -428,7 +427,6 @@ layer_0/tile_data = PackedInt32Array(0, 262144, 3, 65536, 262144, 3, 131072, 262
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_kbe4w")
-script = ExtResource("2_bodot")
 
 [node name="PlayerSpawn" type="Node2D" parent="." groups=["player_spawn"]]
 position = Vector2(289, 236)

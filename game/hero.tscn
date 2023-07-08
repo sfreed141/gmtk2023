@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b6tb4njluakgs"]
+[gd_scene load_steps=25 format=3 uid="uid://b6tb4njluakgs"]
 
 [ext_resource type="Script" path="res://game/hero.gd" id="1_sjq8v"]
 [ext_resource type="Texture2D" uid="uid://b2p0aexjsahdb" path="res://assets/heroStandBkd-Sheet.png" id="2_n1gpe"]
@@ -132,7 +132,34 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_g6t3r"]
+radius = 256.0
+
+[sub_resource type="Animation" id="Animation_pdux5"]
+resource_name = "attack"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"do_attack"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ybvui"]
+_data = {
+"attack": SubResource("Animation_pdux5")
+}
+
 [node name="Hero" type="CharacterBody2D" groups=["hero"]]
+disable_mode = 2
 collision_layer = 12
 motion_mode = 1
 script = ExtResource("1_sjq8v")
@@ -149,5 +176,24 @@ animation = &"fwd"
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="Line2D" type="Line2D" parent="."]
+visible = false
 top_level = true
 width = 4.0
+
+[node name="AggroRange" type="Area2D" parent="."]
+disable_mode = 2
+collision_layer = 16
+collision_mask = 16
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroRange"]
+shape = SubResource("CircleShape2D_g6t3r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ybvui")
+}
+
+[connection signal="area_entered" from="AggroRange" to="." method="_on_aggro_range_area_entered"]
+[connection signal="body_entered" from="AggroRange" to="." method="_on_aggro_range_body_entered"]
+[connection signal="body_shape_entered" from="AggroRange" to="." method="_on_aggro_range_body_shape_entered"]
