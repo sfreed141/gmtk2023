@@ -117,6 +117,14 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Dungeon Cleared!"
 
+[node name="CurrentRoundLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 72.0
+offset_bottom = 34.0
+text = "Round 1"
+
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/StartButton" to="." method="_on_main_menu_start_button_pressed"]
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_main_menu_quit_button_pressed"]
 [connection signal="place_unit" from="UI/HUD/UnitBar" to="." method="_on_unit_bar_place_unit"]

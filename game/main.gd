@@ -3,6 +3,7 @@ extends Node
 @onready var main_menu: PanelContainer = $UI/MainMenu
 @onready var hud: Control = $UI/HUD
 @onready var round_over_label: Label = $UI/HUD/RoundOverLabel
+@onready var current_round_label = $UI/HUD/CurrentRoundLabel
 
 @onready var player: Player = $World/Player
 @onready var world: Node2D = $World
@@ -12,8 +13,10 @@ const LEVEL_NODE_NAME := "Level"
 const PLAYER_SPAWN_GROUPNAME := "player_spawn"
 const HERO_GROUPNAME := "hero"
 
+const FINAL_LEVEL = 5
 var hero: Hero
 var level: Node
+var round_level = 1
 
 @export var startup_level: PackedScene
 @export var start_at_main_menu := true
@@ -30,7 +33,10 @@ func start_game():
 	main_menu.hide()
 	world.show()
 	hud.show()
-
+	
+	update_round_label()
+	current_round_label.show()
+	
 	if startup_level:
 		level = startup_level.instantiate()
 		level.name = LEVEL_NODE_NAME
@@ -51,11 +57,19 @@ func start_game():
 func _on_hero_path_finished():
 	end_round(true)
 
+func update_round_label():
+	current_round_label.text = "Round %d" % round_level
+
 func end_round(success: bool):
 	if success:
-		round_over_label.text = "Dungeon Cleared!"
+		round_level += 1
+		if round_level == FINAL_LEVEL:
+			round_over_label.text = "YOU WIN!"
+		else:
+			round_over_label.text = "Dungeon Cleared!"
 	else:
 		round_over_label.text = "Hero wasn't strong enough :("
+		round_level = 1
 
 	round_over_label.show()
 	get_tree().paused = true
@@ -76,7 +90,7 @@ func _on_hero_health_changed(hp):
 func _on_unit_bar_place_unit(unit_data: UnitData, unit_local_position) -> void:
 	var scene = unit_data.unit_scene if unit_data.unit_scene else UNIT_SCENE
 	var unit = scene.instantiate()
-	unit.unit_level = 1		# TODO set based on round
+	unit.unit_level = round_level
 	unit.unit_data = unit_data
 	unit.position = unit_local_position
 	world.add_child(unit)
