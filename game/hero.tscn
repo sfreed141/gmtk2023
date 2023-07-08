@@ -145,3 +145,9 @@ shape = SubResource("RectangleShape2D_yotcf")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_daxdw")
 animation = &"fwd"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="Line2D" type="Line2D" parent="."]
+top_level = true
+width = 4.0
