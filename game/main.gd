@@ -6,6 +6,7 @@ extends Node
 @onready var player: Player = $World/Player
 @onready var world: Node2D = $World
 
+const UNIT_SCENE = preload("res://game/units/unit.tscn")
 const LEVEL_NODE_NAME := "Level"
 const PLAYER_SPAWN_GROUPNAME := "player_spawn"
 const HERO_SPAWN_GROUPNAME := "hero_spawn"
@@ -44,3 +45,10 @@ func _on_main_menu_start_button_pressed() -> void:
 
 func _on_main_menu_quit_button_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_unit_bar_place_unit(unit_data, unit_position) -> void:
+	var unit = UNIT_SCENE.instantiate()
+	unit.unit_data = unit_data
+	unit.global_position = unit_position
+	world.add_child(unit)

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=4 format=3 uid="uid://cn8auxq0cuocm"]
+
+[ext_resource type="Script" path="res://game/units/unit_data.gd" id="1_7cof5"]
+[ext_resource type="Texture2D" uid="uid://g6echbhh21cm" path="res://assets/kenney_tinydungeon_tilemap.png" id="2_r2kh1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3w73t"]
+atlas = ExtResource("2_r2kh1")
+region = Rect2(160, 144, 16, 16)
+
+[resource]
+script = ExtResource("1_7cof5")
+name = "Spinny Axe"
+description = "owie"
+texture = SubResource("AtlasTexture_3w73t")
