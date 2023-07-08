@@ -38,6 +38,10 @@ func _physics_process(delta: float) -> void:
 		_selected_unit.global_position = get_canvas_transform().inverse() * viewport_position
 
 func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+	if (
+		event is InputEventMouseButton
+		and event.button_index == MOUSE_BUTTON_LEFT
+		and event.is_pressed()
+	):
 		var world_position = _get_snapped_world_local_mouse_position()
 		place_unit.emit(_selected_unit.unit_data, world_position)

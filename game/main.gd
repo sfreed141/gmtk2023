@@ -44,10 +44,19 @@ func start_game():
 		
 		hero = get_tree().get_first_node_in_group(HERO_GROUPNAME)
 		hero.path_finished.connect(_on_hero_path_finished)
+		hero.health_changed.connect(_on_hero_health_changed)
 	else:
 		push_error("No startup_level specified!")
 
 func _on_hero_path_finished():
+	end_round(true)
+
+func end_round(success: bool):
+	if success:
+		round_over_label.text = "Dungeon Cleared!"
+	else:
+		round_over_label.text = "Hero wasn't strong enough :("
+
 	round_over_label.show()
 	get_tree().paused = true
 	await get_tree().create_timer(3).timeout
@@ -55,10 +64,19 @@ func _on_hero_path_finished():
 	round_over_label.hide()
 	
 	level.queue_free()
+	
+	# TODO goto next level or back to level0 depending on success
 	start_game.call_deferred()
 
-func _on_unit_bar_place_unit(unit_data, unit_local_position) -> void:
-	var unit = UNIT_SCENE.instantiate()
+func _on_hero_health_changed(hp):
+	print("Hero has %d health" % hp)
+	if hp <= 0:
+		end_round(false)
+
+func _on_unit_bar_place_unit(unit_data: UnitData, unit_local_position) -> void:
+	# TODO test if position already occupied (has something in world physics layer)
+	var scene = unit_data.unit_scene if unit_data.unit_scene else UNIT_SCENE
+	var unit = scene.instantiate()
 	unit.unit_data = unit_data
 	unit.position = unit_local_position
 	world.add_child(unit)
