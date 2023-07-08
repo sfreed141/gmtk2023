@@ -124,7 +124,6 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Dungeon Cleared!"
 
-<<<<<<< HEAD
 [node name="CurrentRoundLabel" type="Label" parent="UI/HUD"]
 layout_mode = 0
 offset_left = 8.0
@@ -140,7 +139,6 @@ offset_top = 27.0
 offset_right = 108.0
 offset_bottom = 53.0
 text = "Hero Level: 1"
-=======
 [node name="ProgressBar" type="ProgressBar" parent="UI/HUD"]
 layout_mode = 0
 offset_left = 4.0
@@ -152,7 +150,6 @@ mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_1eqly")
 theme_override_styles/fill = SubResource("StyleBoxFlat_awwn5")
 rounded = true
->>>>>>> a55ad9f (add hp bar)
 
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/StartButton" to="." method="_on_main_menu_start_button_pressed"]
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_main_menu_quit_button_pressed"]
