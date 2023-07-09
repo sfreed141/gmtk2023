@@ -20,6 +20,7 @@ func _physics_process(delta):
 		var direction = target.global_position - global_position
 		if direction.length() < ATTACK_RANGE:
 			animation_player.play("attack")
+			$AnimatedSprite2D.play("attack")
 		else:
 			direction = direction.normalized()
 			var motion = delta * direction * SPEED

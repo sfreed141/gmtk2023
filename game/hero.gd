@@ -23,6 +23,7 @@ var _path_index := 0
 @onready var navigation_agent_2d = $NavigationAgent2D
 
 var target_unit: Node2D
+var dead = false
 
 func set_xp(a_value):
 	xp = a_value
@@ -77,7 +78,7 @@ func do_attack():
 
 
 func _physics_process(delta: float) -> void:
-	if $AnimationPlayer.is_playing():
+	if $AnimationPlayer.is_playing() or dead:
 		return
 
 	if target_unit:
@@ -126,6 +127,8 @@ func hit(amount):
 	health -= amount * (1 + 0.2 * rng)
 	if health <= 0:
 		$DeathOofSfx.play()
+		$AnimatedSprite2D.stop()
+		dead = true
 	else:
 		$OofSfx.play()
 	health_changed.emit(health)
