@@ -27,7 +27,7 @@ start_at_main_menu = false
 
 [node name="World" type="Node2D" parent="." groups=["world"]]
 
-[node name="Player" parent="World" instance=ExtResource("1_pqh5f")]
+[node name="player" parent="World" instance=ExtResource("1_pqh5f")]
 visible = false
 
 [node name="UI" type="CanvasLayer" parent="."]

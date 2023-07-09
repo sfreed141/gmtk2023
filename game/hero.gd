@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name Hero
 
-signal path_finished()
+signal path_finished
 signal health_changed(hp)
 signal xp_changed(xp)
 
@@ -34,7 +34,7 @@ func set_xp(a_value):
 
 func _ready() -> void:
 	animated_sprite_2d.speed_scale = 2
-	
+
 	$Line2D.add_point(global_position)
 	set_physics_process(false)
 	nav_setup.call_deferred()
@@ -64,6 +64,7 @@ func nav_setup():
 	navigation_agent_2d.target_position = target_position
 	set_physics_process(true)
 
+
 func do_attack():
 	print("WACK")
 	target_unit.hit(attack_damage)
@@ -72,10 +73,11 @@ func do_attack():
 		target_unit.queue_free()
 		target_unit = null
 
+
 func _physics_process(delta: float) -> void:
 	if $AnimationPlayer.is_playing():
 		return
-	
+
 	if target_unit:
 		if target_unit.global_position.distance_to(global_position) < ATTACK_RANGE:
 			# todo attack. on defeat, gain xp and clear target_unit
@@ -88,7 +90,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		var next_position = navigation_agent_2d.get_next_path_position()
 		$Line2D.add_point(next_position)
-		
+
 		if navigation_agent_2d.is_target_reachable():
 			move_towards(next_position)
 		else:
@@ -98,22 +100,25 @@ func _physics_process(delta: float) -> void:
 			if final_position.distance_to(next_position) < 10:
 				print("blocked! spin attack")
 
+
 func move_towards(next_position):
 	var direction = next_position - global_position
-			
+
 	direction = direction.normalized()
 	if direction.y > 0:
 		animated_sprite_2d.play("fwd")
 	else:
 		animated_sprite_2d.play("bkd")
-	
+
 	velocity = direction * SPEED
 	move_and_slide()
-	
+
+
 func hit(amount):
 	var rng = randi_range(-2, 2)
 	health -= amount * (1 + 0.2 * rng)
 	health_changed.emit(health)
+
 
 func _on_aggro_range_area_entered(area):
 	print("target acquired")
