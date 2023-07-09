@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://cuwqegjegrrb5"]
+
+[ext_resource type="Script" path="res://game/units/rat_mob_unit.gd" id="1_o4jth"]
+[ext_resource type="Texture2D" uid="uid://g6echbhh21cm" path="res://assets/kenney_tinydungeon_tilemap.png" id="2_mio6p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3dj0"]
+atlas = ExtResource("2_mio6p")
+region = Rect2(64, 160, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7bquo"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6bi1n"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lqxv0"]
+radius = 50.0
+
+[sub_resource type="Animation" id="Animation_tlld6"]
+resource_name = "attack"
+length = 3.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(2.9),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"do_attack"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5rmhg"]
+_data = {
+"attack": SubResource("Animation_tlld6")
+}
+
+[node name="RatMobUnit" type="Node2D"]
+script = ExtResource("1_o4jth")
+
+[node name="Pivot" type="Node2D" parent="."]
+position = Vector2(8, 16)
+
+[node name="Sprite2D" type="Sprite2D" parent="Pivot"]
+position = Vector2(-8, -16)
+texture = SubResource("AtlasTexture_y3dj0")
+centered = false
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Pivot"]
+position = Vector2(-8, -16)
+disable_mode = 2
+collision_layer = 25
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/StaticBody2D"]
+position = Vector2(8, 8)
+shape = SubResource("CircleShape2D_7bquo")
+
+[node name="HurtBox" type="Area2D" parent="Pivot"]
+disable_mode = 2
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Pivot/HurtBox"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_6bi1n")
+
+[node name="HitBox" type="Area2D" parent="Pivot"]
+disable_mode = 2
+collision_layer = 16
+collision_mask = 16
+monitoring = false
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Pivot/HitBox"]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_6bi1n")
+
+[node name="DetectionRange" type="Area2D" parent="."]
+position = Vector2(8, 8)
+disable_mode = 2
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange"]
+shape = SubResource("CircleShape2D_lqxv0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5rmhg")
+}
+
+[connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]

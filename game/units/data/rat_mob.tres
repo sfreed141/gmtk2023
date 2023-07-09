@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=4 format=3 uid="uid://bu2c2bfkmtna6"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=5 format=3 uid="uid://bu2c2bfkmtna6"]
 
 [ext_resource type="Script" path="res://game/units/unit_data.gd" id="1_q2qwi"]
 [ext_resource type="Texture2D" uid="uid://g6echbhh21cm" path="res://assets/kenney_tinydungeon_tilemap.png" id="2_dh63q"]
+[ext_resource type="PackedScene" uid="uid://cuwqegjegrrb5" path="res://game/units/rat_mob_unit.tscn" id="3_6ij4g"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a5ibu"]
 atlas = ExtResource("2_dh63q")
@@ -12,6 +13,7 @@ script = ExtResource("1_q2qwi")
 name = "Rats"
 description = "nasty lil buggers"
 texture = SubResource("AtlasTexture_a5ibu")
+unit_scene = ExtResource("3_6ij4g")
 health = Array[int]([50])
 xp_granted = Array[int]([200])
 damage = Array[int]([50])
