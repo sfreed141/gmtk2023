@@ -12,6 +12,7 @@ func _ready():
 	super._ready()
 
 func do_attack():
+	$AudioStreamPlayer.play()
 	target.hit(damage)
 
 func _physics_process(delta):

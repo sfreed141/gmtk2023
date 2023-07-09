@@ -34,6 +34,7 @@ func _ready():
 		world.hide()
 		hud.hide()
 		main_menu.show()
+		$MainMenuMusic.play()
 	else:
 		start_game()
 
@@ -48,6 +49,15 @@ func _init_xp_bar():
 
 
 func start_game():
+	$MainMenuMusic.stop()
+	$BackgroundMusic.stop()
+	$BackgroundMusic2.stop()
+	$SuccessJingle.stop()
+	$FailJingle.stop()
+	if round_level <= 2:
+		$BackgroundMusic.play()
+	else:
+		$BackgroundMusic2.play()
 	main_menu.hide()
 	world.show()
 	hud.show()
@@ -129,7 +139,10 @@ func update_hero_label():
 
 
 func end_round(success: bool):
+	$BackgroundMusic.stop()
+	$BackgroundMusic2.stop()
 	if success:
+		$SuccessJingle.play()
 		round_level += 1
 		hero_xp = hero.xp
 		if round_level == FINAL_LEVEL:
@@ -139,15 +152,19 @@ func end_round(success: bool):
 		else:
 			round_over_label.text = "Dungeon Cleared!"
 	else:
+		$FailJingle.play()
 		round_over_label.text = "Hero wasn't strong enough :("
 		round_level = 1
 		hero_xp = 0
 
 
 	round_over_label.show()
-	get_tree().paused = true
-	await get_tree().create_timer(3).timeout
-	get_tree().paused = false
+#	get_tree().paused = true
+	for c in world.get_children():
+		c.set_process(false)
+		c.set_physics_process(false)
+	await get_tree().create_timer(5).timeout
+#	get_tree().paused = false
 	round_over_label.hide()
 
 	for c in world.get_children():

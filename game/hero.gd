@@ -68,6 +68,7 @@ func nav_setup():
 func do_attack():
 	print("WACK")
 	target_unit.hit(attack_damage)
+	$AttackSfx.play()
 	if target_unit.health <= 0:
 		xp += target_unit.xp_granted
 		target_unit.queue_free()
@@ -117,6 +118,10 @@ func move_towards(next_position):
 func hit(amount):
 	var rng = randi_range(-2, 2)
 	health -= amount * (1 + 0.2 * rng)
+	if health <= 0:
+		$DeathOofSfx.play()
+	else:
+		$OofSfx.play()
 	health_changed.emit(health)
 
 
