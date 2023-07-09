@@ -8,7 +8,7 @@ signal xp_changed(xp)
 var health = 100
 const required_xp = [100, 300, 600, 1000, 1500]  # this is total xp required, not xp required per level
 const SPEED = 100.0
-const ATTACK_RANGE = 10
+const ATTACK_RANGE = 15
 
 var level = 1
 var xp = 0: set = set_xp
@@ -120,4 +120,5 @@ func hit(amount):
 
 
 func _on_aggro_range_area_entered(area):
+	print("target acquired")
 	target_unit = area.owner
