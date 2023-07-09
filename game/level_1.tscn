@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://drc61nixnwsrx"]
+[gd_scene load_steps=8 format=3 uid="uid://cqg6vfkf003lg"]
 
 [ext_resource type="Texture2D" uid="uid://b7cc6gc2ypfym" path="res://assets/tileset (1).png" id="1_rop7r"]
 [ext_resource type="PackedScene" uid="uid://b6tb4njluakgs" path="res://game/hero.tscn" id="3_g35eo"]
@@ -143,7 +143,7 @@ position = Vector2(0, -8)
 navigation_polygon = SubResource("NavigationPolygon_ocs3q")
 
 [node name="PlayerSpawn" type="Node2D" parent="." groups=["player_spawn"]]
-position = Vector2(496, 224)
+position = Vector2(65, 131)
 
 [node name="HeroSpawn" type="Node2D" parent="."]
 position = Vector2(64, 0)

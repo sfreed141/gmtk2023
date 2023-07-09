@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://game/units/unit_data.gd" id="1_om4d2"]
 [ext_resource type="Texture2D" uid="uid://f5pm2ecxsodr" path="res://assets/wizard-Sheet.png" id="2_exakj"]
-[ext_resource type="PackedScene" uid="uid://t2axld1a34ek" path="res://game/units/magic_turret_unit.tscn" id="3_v6k1h"]
+[ext_resource type="PackedScene" path="res://game/units/magic_turret_unit.tscn" id="3_v6k1h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b28vo"]
 atlas = ExtResource("2_exakj")
