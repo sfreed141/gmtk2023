@@ -3,14 +3,18 @@ class_name Hero
 
 signal path_finished()
 signal health_changed(hp)
+signal xp_changed(xp)
 
 var health = 100
-
+const required_xp = [100, 300, 600, 1000, 1500]  # this is total xp required, not xp required per level
 const SPEED = 100.0
-const ATTACK_RANGE = 10
+const ATTACK_RANGE = 15
 
-var xp = 0
-var attack_damage = 20	# TODO increase on level up
+var level = 1
+var xp = 0: set = set_xp
+var display_xp = 0
+var next_lv_xp = 0
+var attack_damage = 20  # TODO increase on level up
 
 @export var path: Path2D
 var _path_index := 0
@@ -20,12 +24,39 @@ var _path_index := 0
 
 var target_unit: Node2D
 
+func set_xp(a_value):
+	xp = a_value
+	if level > 1:
+		display_xp = xp - required_xp[level - 2]
+	else:
+		display_xp = xp
+	xp_changed.emit(xp, display_xp)
+
 func _ready() -> void:
 	animated_sprite_2d.speed_scale = 2
 	
 	$Line2D.add_point(global_position)
 	set_physics_process(false)
 	nav_setup.call_deferred()
+
+
+func apply_level_stats():
+	const health_per_level = [100, 100, 100, 100, 100]
+	const damage_per_level = [20, 30, 40, 50, 60]
+	level = 1
+	while level - 1 < required_xp.size() and xp >= required_xp[level - 1]:
+		level += 1
+	
+	if level > 1:
+		display_xp = xp - required_xp[level - 2]
+		next_lv_xp = required_xp[level - 1] - required_xp[level - 2]
+	else:
+		display_xp = xp
+		next_lv_xp = required_xp[level - 1]
+	level = min(required_xp.size(), level)
+	health = health_per_level[level - 1]
+	attack_damage = damage_per_level[level - 1]
+
 
 func nav_setup():
 	await get_tree().physics_frame
@@ -84,4 +115,5 @@ func hit(amount):
 	health_changed.emit(health)
 
 func _on_aggro_range_area_entered(area):
+	print("target acquired")
 	target_unit = area.owner

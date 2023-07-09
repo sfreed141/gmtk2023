@@ -16,3 +16,7 @@ func _ready() -> void:
 		sprite_2d = $Sprite2D
 		assert(sprite_2d)
 	set_unit_data(unit_data)
+
+
+func hit(amount):
+	health -= amount

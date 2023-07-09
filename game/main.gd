@@ -7,6 +7,10 @@ extends Node
 @onready var player: Player = $World/Player
 @onready var world: Node2D = $World
 
+const PLAYER_SCENE = preload("res://game/player.tscn")
+@onready var healthbar: ProgressBar = $UI/HUD/HPBar
+@onready var xpbar: ProgressBar = $UI/HUD/XPBar
+
 const UNIT_SCENE = preload("res://game/units/unit.tscn")
 const LEVEL_NODE_NAME := "Level"
 const PLAYER_SPAWN_GROUPNAME := "player_spawn"
@@ -26,6 +30,16 @@ func _ready():
 	else:
 		start_game()
 
+
+func _init_hp_bar():
+	healthbar.max_value = get_tree().get_first_node_in_group(HERO_GROUPNAME).health
+	healthbar.value = get_tree().get_first_node_in_group(HERO_GROUPNAME).health
+
+func _init_xp_bar():
+	xpbar.max_value = get_tree().get_first_node_in_group(HERO_GROUPNAME).next_lv_xp
+	xpbar.value = get_tree().get_first_node_in_group(HERO_GROUPNAME).display_xp
+
+
 func start_game():
 	main_menu.hide()
 	world.show()
@@ -33,18 +47,36 @@ func start_game():
 
 	if startup_level:
 		level = startup_level.instantiate()
-		level.name = LEVEL_NODE_NAME
-		world.add_child(level)
-		
-		var player_spawn: Node2D = get_tree().get_first_node_in_group(PLAYER_SPAWN_GROUPNAME)
-		if player_spawn:
-			player.global_position = player_spawn.global_position
-		else:
-			push_error("Level '%s' doesn't have a node in group '%s'" % [startup_level.resource_name, PLAYER_SPAWN_GROUPNAME])
-		
+		level.name = "level"
+		world.add_child(level, true)
+
+		if not world.has_node("player"):
+			var player = PLAYER_SCENE.instantiate()
+			player.name = "player"
+			player.visible = false
+			var player_spawn: Node2D = get_tree().get_first_node_in_group(PLAYER_SPAWN_GROUPNAME)
+			if player_spawn:
+				player.global_position = player_spawn.global_position
+			else:
+				push_error(
+					(
+						"Level '%s' doesn't have a node in group '%s'"
+						% [startup_level.resource_name, PLAYER_SPAWN_GROUPNAME]
+					)
+				)
+			world.add_child(player, true)
+		_init_hp_bar()
+
 		hero = get_tree().get_first_node_in_group(HERO_GROUPNAME)
+		hero.xp = hero_xp
+		print("hero xp: %d" % hero_xp)
+		hero.apply_level_stats()
+		print("hero next_lv_xp %d" % hero.next_lv_xp)
+		_init_xp_bar()
+		update_hero_label()
 		hero.path_finished.connect(_on_hero_path_finished)
 		hero.health_changed.connect(_on_hero_health_changed)
+		hero.xp_changed.connect(_on_hero_xp_changed)
 	else:
 		push_error("No startup_level specified!")
 
@@ -72,6 +104,13 @@ func _on_hero_health_changed(hp):
 	print("Hero has %d health" % hp)
 	if hp <= 0:
 		end_round(false)
+
+func _on_hero_xp_changed(xp, display_xp):
+	print("Hero has %d xp" % xp)
+	print("Hero has %d display_xp" % display_xp)
+	xpbar.value = display_xp
+	if xp < 0:
+		print("Fuck do I know")
 
 func _on_unit_bar_place_unit(unit_data: UnitData, unit_local_position) -> void:
 	var scene = unit_data.unit_scene if unit_data.unit_scene else UNIT_SCENE
