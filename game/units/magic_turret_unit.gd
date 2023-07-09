@@ -27,6 +27,7 @@ func _physics_process(delta):
 		if attack_cooldown_timer <= 0:
 			projectile.global_position = global_position
 			projectile.visible = true
+			$AudioStreamPlayer.play()
 			attack_cooldown_timer = ATTACK_COOLDOWN
 
 func _on_attack_range_body_entered(body):

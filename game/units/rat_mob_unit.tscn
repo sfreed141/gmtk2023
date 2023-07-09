@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cuwqegjegrrb5"]
+[gd_scene load_steps=10 format=3 uid="uid://cuwqegjegrrb5"]
 
 [ext_resource type="Script" path="res://game/units/rat_mob_unit.gd" id="1_o4jth"]
 [ext_resource type="Texture2D" uid="uid://g6echbhh21cm" path="res://assets/kenney_tinydungeon_tilemap.png" id="2_mio6p"]
+[ext_resource type="AudioStream" uid="uid://cs8poovslruya" path="res://assets/sfx/Click2.mp3" id="3_kgj1p"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y3dj0"]
 atlas = ExtResource("2_mio6p")
@@ -18,7 +19,6 @@ radius = 50.0
 
 [sub_resource type="Animation" id="Animation_tlld6"]
 resource_name = "attack"
-length = 3.0
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -26,7 +26,7 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(2.9),
+"times": PackedFloat32Array(1),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -92,5 +92,9 @@ shape = SubResource("CircleShape2D_lqxv0")
 libraries = {
 "": SubResource("AnimationLibrary_5rmhg")
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_kgj1p")
+bus = &"Sfx"
 
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]

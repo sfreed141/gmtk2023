@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bq0cpheqbesfh"]
+[gd_scene load_steps=7 format=3 uid="uid://bq0cpheqbesfh"]
 
 [ext_resource type="Script" path="res://game/units/spinny_axe_unit.gd" id="1_66fbr"]
 [ext_resource type="Texture2D" uid="uid://g6echbhh21cm" path="res://assets/kenney_tinydungeon_tilemap.png" id="2_22bkp"]
+[ext_resource type="AudioStream" uid="uid://bfnxyetxxt3um" path="res://assets/sfx/SwordHit.mp3" id="3_rkttv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fe4d0"]
 atlas = ExtResource("2_22bkp")
@@ -53,5 +54,9 @@ monitoring = false
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="Pivot/HitBox"]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_6bi1n")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_rkttv")
+bus = &"Sfx"
 
 [connection signal="body_entered" from="Pivot/HurtBox" to="." method="_on_hurt_box_body_entered"]
