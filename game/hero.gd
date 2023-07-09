@@ -111,7 +111,8 @@ func move_towards(next_position):
 	move_and_slide()
 	
 func hit(amount):
-	health -= amount
+	var rng = randi_range(-2, 2)
+	health -= amount * (1 + 0.2 * rng)
 	health_changed.emit(health)
 
 func _on_aggro_range_area_entered(area):

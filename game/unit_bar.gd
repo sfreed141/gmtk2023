@@ -9,6 +9,8 @@ const TILE_DIMENSION = Vector2(16, 16)
 
 var _world: Node2D
 
+var is_broke = false
+
 
 func _ready():
 	for slot in _grid_container.get_children():
@@ -25,6 +27,9 @@ func _on_slot_clicked(index: int, button: int):
 	_selected_unit.unit_data = unit_data
 	_selected_unit.visible = true
 
+func clear_selected_unit():
+	_selected_unit.unit_data = null
+	_selected_unit.visible = false
 
 func _get_snapped_world_local_mouse_position():
 	var world_position = _world.get_local_mouse_position()
@@ -46,7 +51,7 @@ func _physics_process(delta: float) -> void:
 		var viewport_position = _world.get_global_transform_with_canvas() * world_position
 		_selected_unit.global_position = get_canvas_transform().inverse() * viewport_position
 
-		if is_unit_placement_valid(world_position):
+		if is_unit_placement_valid(world_position) and not is_broke:
 			_selected_unit.modulate = Color.WHITE
 		else:
 			_selected_unit.modulate = Color.RED
@@ -57,6 +62,7 @@ func _gui_input(event: InputEvent) -> void:
 		event is InputEventMouseButton
 		and event.button_index == MOUSE_BUTTON_LEFT
 		and event.is_pressed()
+		and _selected_unit.unit_data
 	):
 		var world_position = _get_snapped_world_local_mouse_position()
 		if is_unit_placement_valid(world_position):

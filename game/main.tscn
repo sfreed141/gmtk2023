@@ -144,6 +144,15 @@ offset_right = 108.0
 offset_bottom = 53.0
 text = "Hero Level: 1"
 
+[node name="CurrencyLabel" type="Label" parent="UI/HUD"]
+layout_mode = 0
+offset_left = 530.0
+offset_top = 203.0
+offset_right = 636.0
+offset_bottom = 229.0
+text = "Currency: 100"
+horizontal_alignment = 2
+
 [node name="HPBar" type="ProgressBar" parent="UI/HUD"]
 layout_mode = 0
 offset_left = 4.0
