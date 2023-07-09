@@ -21,6 +21,9 @@ var hero: Hero
 var hero_xp := 0  # used to persist the xp between rounds
 var level: Node
 var round_level = 1
+const CURRENCY_PER_LEVEL = [ 100, 200, 300, 400, 500 ]
+const CHEAPEST_UNIT_COST = 25
+var currency
 
 @export var startup_level: PackedScene
 @export var start_at_main_menu := true
@@ -84,9 +87,34 @@ func start_game():
 		hero.path_finished.connect(_on_hero_path_finished)
 		hero.health_changed.connect(_on_hero_health_changed)
 		hero.xp_changed.connect(_on_hero_xp_changed)
+		
+		currency = CURRENCY_PER_LEVEL[round_level - 1]
+		$UI/HUD/UnitBar.is_broke = false
+		update_currency_label()
+		
+#		refresh_unit_bar()
 	else:
 		push_error("No startup_level specified!")
 
+func refresh_unit_bar():
+	const UNIT_DATA = [
+		preload("res://game/units/data/spinny_axe.tres"),
+		preload("res://game/units/data/rat_mob.tres"),
+		preload("res://game/units/data/magic_turret.tres"),
+	]
+	
+	var unit_bar = $UI/HUD/UnitBar
+	var grid_container = $UI/HUD/UnitBar/MarginContainer/GridContainer
+	for c in grid_container.get_children():
+		c.free()
+	
+	for unit_data in UNIT_DATA:
+		var slot = preload("res://game/units/unit_slot.tscn").instantiate()
+		slot.unit_data = unit_data
+		# TODO labels for cost, unit stats
+		grid_container.add_child(slot)
+	
+	unit_bar.clear_selected_unit()
 
 func _on_hero_path_finished():
 	end_round(true)
@@ -143,13 +171,27 @@ func _on_hero_xp_changed(xp, display_xp):
 		print("Fuck do I know")
 
 func _on_unit_bar_place_unit(unit_data: UnitData, unit_local_position) -> void:
-	var scene = unit_data.unit_scene if unit_data.unit_scene else UNIT_SCENE
-	var unit = scene.instantiate()
-	unit.unit_level = round_level
-	unit.unit_data = unit_data
-	unit.position = unit_local_position
-	world.add_child(unit)
+	if currency >= unit_data.cost:
+		currency -= unit_data.cost
+		
+		var scene = unit_data.unit_scene if unit_data.unit_scene else UNIT_SCENE
+		var unit = scene.instantiate()
+		unit.unit_level = round_level
+		unit.unit_data = unit_data
+		unit.position = unit_local_position
+		world.add_child(unit)
 
+	if currency < CHEAPEST_UNIT_COST:
+		$UI/HUD/UnitBar.is_broke = true
+	
+	update_currency_label()
+
+func update_currency_label():
+	$UI/HUD/CurrencyLabel.text = "Currency: %d" % currency
+	if $UI/HUD/UnitBar.is_broke:
+		$UI/HUD/CurrencyLabel.add_theme_color_override("font_color", Color.RED)
+	else:
+		$UI/HUD/CurrencyLabel.remove_theme_color_override("font_color")
 
 func _on_main_menu_start_button_pressed() -> void:
 	start_game()
