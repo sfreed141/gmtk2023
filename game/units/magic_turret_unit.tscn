@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://t2axld1a34ek"]
+[gd_scene load_steps=11 format=3 uid="uid://t2axld1a34ek"]
 
 [ext_resource type="Script" path="res://game/units/magic_turret_unit.gd" id="1_kctuw"]
 [ext_resource type="Texture2D" uid="uid://g6echbhh21cm" path="res://assets/kenney_tinydungeon_tilemap.png" id="2_vfb86"]
 [ext_resource type="Texture2D" uid="uid://bsrdfibgcir5y" path="res://assets/light_01.png" id="3_my2gs"]
+[ext_resource type="AudioStream" uid="uid://dhebt0u3a71fp" path="res://assets/sfx/WizardSound1.mp3" id="4_0gq88"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8nxdb"]
 atlas = ExtResource("2_vfb86")
@@ -75,6 +76,10 @@ monitoring = false
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="HitBox"]
 position = Vector2(8, 8)
 shape = SubResource("CircleShape2D_1xknk")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_0gq88")
+bus = &"Sfx"
 
 [connection signal="body_entered" from="AttackRange" to="." method="_on_attack_range_body_entered"]
 [connection signal="body_exited" from="AttackRange" to="." method="_on_attack_range_body_exited"]

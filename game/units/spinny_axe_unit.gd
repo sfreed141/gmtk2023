@@ -15,4 +15,5 @@ func _process(delta: float) -> void:
 
 func _on_hurt_box_body_entered(body: Node2D) -> void:
 	if body.has_method("hit"):
+		$AudioStreamPlayer.play()
 		body.hit(damage)

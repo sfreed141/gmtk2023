@@ -1,8 +1,11 @@
-[gd_scene load_steps=25 format=3 uid="uid://b6tb4njluakgs"]
+[gd_scene load_steps=28 format=3 uid="uid://b6tb4njluakgs"]
 
 [ext_resource type="Script" path="res://game/hero.gd" id="1_sjq8v"]
 [ext_resource type="Texture2D" uid="uid://b2p0aexjsahdb" path="res://assets/heroStandBkd-Sheet.png" id="2_n1gpe"]
 [ext_resource type="Texture2D" uid="uid://bckwwevip3if8" path="res://assets/heroStandFwd-Sheet.png" id="3_xgjsw"]
+[ext_resource type="AudioStream" uid="uid://c7c7p2uvwyem1" path="res://assets/sfx/OOFNoise.mp3" id="4_se5qe"]
+[ext_resource type="AudioStream" uid="uid://bfnxyetxxt3um" path="res://assets/sfx/SwordHit.mp3" id="5_cssqc"]
+[ext_resource type="AudioStream" uid="uid://dm30gj28mskvf" path="res://assets/sfx/DeathCry.mp3" id="6_21jm8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yotcf"]
 size = Vector2(128, 128)
@@ -193,6 +196,18 @@ shape = SubResource("CircleShape2D_g6t3r")
 libraries = {
 "": SubResource("AnimationLibrary_ybvui")
 }
+
+[node name="OofSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_se5qe")
+bus = &"Sfx"
+
+[node name="AttackSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_cssqc")
+bus = &"Sfx"
+
+[node name="DeathOofSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_21jm8")
+bus = &"Sfx"
 
 [connection signal="area_entered" from="AggroRange" to="." method="_on_aggro_range_area_entered"]
 [connection signal="body_entered" from="AggroRange" to="." method="_on_aggro_range_body_entered"]
