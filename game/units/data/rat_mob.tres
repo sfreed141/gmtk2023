@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://game/units/unit_data.gd" id="1_q2qwi"]
 [ext_resource type="Texture2D" uid="uid://cuiq3fo22srso" path="res://assets/axeMonsterSheet.png" id="2_it7je"]
-[ext_resource type="PackedScene" uid="uid://cuwqegjegrrb5" path="res://game/units/rat_mob_unit.tscn" id="3_6ij4g"]
+[ext_resource type="PackedScene" path="res://game/units/rat_mob_unit.tscn" id="3_6ij4g"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_erp4d"]
 atlas = ExtResource("2_it7je")
