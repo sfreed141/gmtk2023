@@ -9,7 +9,6 @@ signal slot_clicked(index: int, button: int)
 func _ready():
 	# this ensures any unit_data that was set before this node was ready is applied
 	set_unit_data(unit_data)
-	
 	var zoom_level = get_viewport().get_camera_2d().zoom
 	custom_minimum_size *= zoom_level
 
