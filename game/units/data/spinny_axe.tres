@@ -14,6 +14,7 @@ name = "Spinny Axe"
 description = "owie"
 texture = SubResource("AtlasTexture_3w73t")
 unit_scene = ExtResource("3_ki613")
+cost = 25
 health = Array[int]([100])
 xp_granted = Array[int]([50])
 damage = Array[int]([20])

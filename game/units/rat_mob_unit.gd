@@ -1,6 +1,6 @@
 extends Unit
 
-const ATTACK_RANGE = 10
+const ATTACK_RANGE = 15
 const SPEED = 50
 
 var target: Node2D
