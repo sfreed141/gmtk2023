@@ -2,6 +2,7 @@ extends Unit
 
 
 const ROTATION_SPEED_SCALE = 3
+const DAMAGE = 20
 
 @onready var pivot: Node2D = $Pivot
 
@@ -15,4 +16,7 @@ func _process(delta: float) -> void:
 
 func _on_hurt_box_body_entered(body: Node2D) -> void:
 	if body.has_method("hit"):
-		body.hit(damage)
+		body.hit(DAMAGE)
+
+func hit(amount):
+	health -= amount
