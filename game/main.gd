@@ -159,9 +159,12 @@ func end_round(success: bool):
 
 
 	round_over_label.show()
-	get_tree().paused = true
+#	get_tree().paused = true
+	for c in world.get_children():
+		c.set_process(false)
+		c.set_physics_process(false)
 	await get_tree().create_timer(5).timeout
-	get_tree().paused = false
+#	get_tree().paused = false
 	round_over_label.hide()
 
 	for c in world.get_children():
