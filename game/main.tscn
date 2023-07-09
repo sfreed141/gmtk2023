@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://cwcwu4ffdagc6"]
+[gd_scene load_steps=19 format=3 uid="uid://cwcwu4ffdagc6"]
 
 [ext_resource type="Script" path="res://game/main.gd" id="1_7po52"]
 [ext_resource type="PackedScene" uid="uid://rwd0dn0askpt" path="res://game/player.tscn" id="1_pqh5f"]
 [ext_resource type="PackedScene" uid="uid://cct522b5qqg1p" path="res://game/level0.tscn" id="2_fiv6v"]
+[ext_resource type="Texture2D" uid="uid://dnh6f8tbyjyhq" path="res://assets/menu.png" id="4_g8fdy"]
 [ext_resource type="Script" path="res://game/unit_bar.gd" id="4_gjpk5"]
 [ext_resource type="PackedScene" uid="uid://hjpgqbf0w5sw" path="res://game/units/unit_slot.tscn" id="4_go1lq"]
 [ext_resource type="Resource" uid="uid://dumv0rkdpmdax" path="res://game/units/data/magic_turret.tres" id="5_10ojq"]
@@ -13,6 +14,9 @@
 [ext_resource type="AudioStream" uid="uid://dm0itqdomuoml" path="res://assets/music/Poppy Twilight (Credit_Long).mp3" id="11_jlmmn"]
 [ext_resource type="AudioStream" uid="uid://ciu4c377cv0k7" path="res://assets/music/SuccessSong.mp3" id="12_wxc20"]
 [ext_resource type="AudioStream" uid="uid://ddi1q81ccpaao" path="res://assets/music/DeathSong.mp3" id="13_8h0dl"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_de2yo"]
+texture = ExtResource("4_g8fdy")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1eqly"]
 bg_color = Color(0.627451, 0.588235, 0.6, 0)
@@ -42,6 +46,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_de2yo")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/MainMenu"]
 layout_mode = 2
@@ -57,7 +62,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "GMTK 2023"
+text = "HERO TRAINER"
 
 [node name="StartButton" type="Button" parent="UI/MainMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
