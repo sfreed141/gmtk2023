@@ -32,9 +32,3 @@ func _physics_process(delta):
 func _on_attack_range_body_entered(body):
 	attack_target = body
 
-
-func _on_projectile_body_entered(body):
-	if projectile.visible and body == attack_target:
-		body.hit(damage)
-		projectile.visible = false
-
