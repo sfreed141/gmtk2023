@@ -120,4 +120,5 @@ func hit(amount):
 
 
 func _on_aggro_range_area_entered(area):
+	print("target acquired")
 	target_unit = area.owner
