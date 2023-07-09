@@ -106,10 +106,15 @@ func move_towards(next_position):
 	var direction = next_position - global_position
 
 	direction = direction.normalized()
-	if direction.y > 0:
-		animated_sprite_2d.play("fwd")
+	var a = direction.angle()
+	if a > -PI / 4 and a < PI / 4:
+		animated_sprite_2d.play("right")
+	elif a > PI / 4 and a < 3 * PI / 4:
+		animated_sprite_2d.play("down")
+	elif a > 3 * PI / 4 or a < -3 * PI / 4:
+		animated_sprite_2d.play("left")
 	else:
-		animated_sprite_2d.play("bkd")
+		animated_sprite_2d.play("up")
 
 	velocity = direction * SPEED
 	move_and_slide()
