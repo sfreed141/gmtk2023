@@ -143,7 +143,7 @@ position = Vector2(0, -8)
 navigation_polygon = SubResource("NavigationPolygon_ocs3q")
 
 [node name="PlayerSpawn" type="Node2D" parent="." groups=["player_spawn"]]
-position = Vector2(496, 224)
+position = Vector2(65, 131)
 
 [node name="HeroSpawn" type="Node2D" parent="."]
 position = Vector2(64, 0)

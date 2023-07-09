@@ -155,7 +155,7 @@ func end_round(success: bool):
 		$SuccessJingle.play()
 		round_level += 1
 		hero_xp = hero.xp
-		if round_level == LEVELS.size():
+		if round_level == LEVELS.size() + 1:
 			round_over_label.text = "YOU WIN!"
 			round_level = 1
 			hero_xp = 0
