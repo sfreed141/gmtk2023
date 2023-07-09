@@ -67,6 +67,7 @@ func nav_setup():
 
 func do_attack():
 	print("WACK")
+	$AnimatedSprite2D.play("attack")
 	target_unit.hit(attack_damage)
 	$AttackSfx.play()
 	if target_unit.health <= 0:
