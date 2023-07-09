@@ -1,7 +1,5 @@
 extends Unit
 
-@export var health = 100
-@export var xp_granted = 50
 
 const ROTATION_SPEED_SCALE = 3
 const DAMAGE = 20

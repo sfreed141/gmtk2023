@@ -1,6 +1,11 @@
 extends Node2D
 class_name Unit
 
+@export_range(1, 5) var unit_level: int = 1
+var health
+var xp_granted
+var damage
+
 @export var unit_data: UnitData:
 	set = set_unit_data
 
