@@ -25,6 +25,7 @@ func _physics_process(delta):
 	elif attack_target:
 		attack_cooldown_timer -= delta
 		if attack_cooldown_timer <= 0:
+			$AnimatedSprite2D.play("attack")
 			projectile.global_position = global_position
 			projectile.visible = true
 			$AudioStreamPlayer.play()

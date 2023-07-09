@@ -8,7 +8,7 @@ signal xp_changed(xp)
 var health = 100
 const required_xp = [100, 300, 600, 1000, 1500]  # this is total xp required, not xp required per level
 const SPEED = 100.0
-const ATTACK_RANGE = 15
+const ATTACK_RANGE = 20
 
 var level = 1
 var xp = 0: set = set_xp
@@ -23,6 +23,7 @@ var _path_index := 0
 @onready var navigation_agent_2d = $NavigationAgent2D
 
 var target_unit: Node2D
+var dead = false
 
 func set_xp(a_value):
 	xp = a_value
@@ -67,6 +68,7 @@ func nav_setup():
 
 func do_attack():
 	print("WACK")
+	$AnimatedSprite2D.play("attack")
 	target_unit.hit(attack_damage)
 	$AttackSfx.play()
 	if target_unit.health <= 0:
@@ -76,11 +78,11 @@ func do_attack():
 
 
 func _physics_process(delta: float) -> void:
-	if $AnimationPlayer.is_playing():
+	if $AnimationPlayer.is_playing() or dead:
 		return
 
 	if target_unit:
-		if target_unit.global_position.distance_to(global_position) < ATTACK_RANGE:
+		if (target_unit.global_position + Vector2(8, 8)).distance_to(global_position) < ATTACK_RANGE:
 			# todo attack. on defeat, gain xp and clear target_unit
 			$AnimationPlayer.play("attack")
 		else:
@@ -106,10 +108,15 @@ func move_towards(next_position):
 	var direction = next_position - global_position
 
 	direction = direction.normalized()
-	if direction.y > 0:
-		animated_sprite_2d.play("fwd")
+	var a = direction.angle()
+	if a > -PI / 4 and a < PI / 4:
+		animated_sprite_2d.play("right")
+	elif a > PI / 4 and a < 3 * PI / 4:
+		animated_sprite_2d.play("down")
+	elif a > 3 * PI / 4 or a < -3 * PI / 4:
+		animated_sprite_2d.play("left")
 	else:
-		animated_sprite_2d.play("bkd")
+		animated_sprite_2d.play("up")
 
 	velocity = direction * SPEED
 	move_and_slide()
@@ -120,6 +127,8 @@ func hit(amount):
 	health -= amount * (1 + 0.2 * rng)
 	if health <= 0:
 		$DeathOofSfx.play()
+		$AnimatedSprite2D.stop()
+		dead = true
 	else:
 		$OofSfx.play()
 	health_changed.emit(health)
