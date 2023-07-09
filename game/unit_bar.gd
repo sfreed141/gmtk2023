@@ -51,7 +51,8 @@ func _physics_process(delta: float) -> void:
 		var viewport_position = _world.get_global_transform_with_canvas() * world_position
 		_selected_unit.global_position = get_canvas_transform().inverse() * viewport_position
 
-		if is_unit_placement_valid(world_position) and not is_broke:
+		if is_unit_placement_valid(world_position) and not is_broke \
+			and owner.currency >= _selected_unit.unit_data.cost:
 			_selected_unit.modulate = Color.WHITE
 		else:
 			_selected_unit.modulate = Color.RED
