@@ -17,6 +17,7 @@ func set_unit_data(data: UnitData):
 	unit_data = data
 	if unit_data and _texture_rect:
 		_texture_rect.texture = unit_data.texture
+		_texture_rect.tooltip_text = unit_data.description
 
 func _gui_input(event: InputEvent) -> void:
 	if (
