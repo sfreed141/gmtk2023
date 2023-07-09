@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cwcwu4ffdagc6"]
+[gd_scene load_steps=17 format=3 uid="uid://cwcwu4ffdagc6"]
 
 [ext_resource type="Script" path="res://game/main.gd" id="1_7po52"]
 [ext_resource type="PackedScene" uid="uid://rwd0dn0askpt" path="res://game/player.tscn" id="1_pqh5f"]
@@ -8,6 +8,11 @@
 [ext_resource type="Resource" uid="uid://dumv0rkdpmdax" path="res://game/units/data/magic_turret.tres" id="5_10ojq"]
 [ext_resource type="Resource" uid="uid://bu2c2bfkmtna6" path="res://game/units/data/rat_mob.tres" id="6_rrv6e"]
 [ext_resource type="Resource" uid="uid://cn8auxq0cuocm" path="res://game/units/data/spinny_axe.tres" id="7_2fl0i"]
+[ext_resource type="AudioStream" uid="uid://bcq4nnjmyy0hh" path="res://assets/music/MainMenuSong.mp3" id="9_ha7ff"]
+[ext_resource type="AudioStream" uid="uid://y3lgpn7q0weg" path="res://assets/music/FirstDungeonTrainingSong.mp3" id="10_rtx43"]
+[ext_resource type="AudioStream" uid="uid://dm0itqdomuoml" path="res://assets/music/Poppy Twilight (Credit_Long).mp3" id="11_jlmmn"]
+[ext_resource type="AudioStream" uid="uid://ciu4c377cv0k7" path="res://assets/music/SuccessSong.mp3" id="12_wxc20"]
+[ext_resource type="AudioStream" uid="uid://ddi1q81ccpaao" path="res://assets/music/DeathSong.mp3" id="13_8h0dl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1eqly"]
 bg_color = Color(0.627451, 0.588235, 0.6, 0)
@@ -176,6 +181,26 @@ mouse_filter = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_1eqly")
 theme_override_styles/fill = SubResource("StyleBoxFlat_awwn5")
 rounded = true
+
+[node name="MainMenuMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_ha7ff")
+bus = &"Music"
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_rtx43")
+bus = &"Music"
+
+[node name="BackgroundMusic2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_jlmmn")
+bus = &"Music"
+
+[node name="SuccessJingle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_wxc20")
+bus = &"Music"
+
+[node name="FailJingle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_8h0dl")
+bus = &"Music"
 
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/StartButton" to="." method="_on_main_menu_start_button_pressed"]
 [connection signal="pressed" from="UI/MainMenu/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_main_menu_quit_button_pressed"]
