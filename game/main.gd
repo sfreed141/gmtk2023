@@ -16,7 +16,13 @@ const UNIT_SCENE = preload("res://game/units/unit.tscn")
 const PLAYER_SPAWN_GROUPNAME := "player_spawn"
 const HERO_GROUPNAME := "hero"
 
-const FINAL_LEVEL = 5
+const LEVELS = [
+	preload("res://game/level0.tscn"),
+	preload("res://game/level_2.tscn"),
+	preload("res://game/level_1.tscn"),
+	preload("res://game/level_3.tscn")
+]
+
 var hero: Hero
 var hero_xp := 0  # used to persist the xp between rounds
 var level: Node
@@ -64,6 +70,8 @@ func start_game():
 
 	update_round_label()
 	current_round_label.show()
+
+	startup_level = LEVELS[round_level - 1]
 
 	if startup_level:
 		level = startup_level.instantiate()
@@ -141,19 +149,22 @@ func update_hero_label():
 func end_round(success: bool):
 	$BackgroundMusic.stop()
 	$BackgroundMusic2.stop()
+	
+	var go_to_main_menu = false
 	if success:
 		$SuccessJingle.play()
 		round_level += 1
 		hero_xp = hero.xp
-		if round_level == FINAL_LEVEL:
+		if round_level == LEVELS.size():
 			round_over_label.text = "YOU WIN!"
 			round_level = 1
 			hero_xp = 0
+			go_to_main_menu = true
 		else:
 			round_over_label.text = "Dungeon Cleared!"
 	else:
 		$FailJingle.play()
-		round_over_label.text = "Hero wasn't strong enough :("
+		round_over_label.text = "Hero wasn't strong enough, back to round 1 :("
 		round_level = 1
 		hero_xp = 0
 
@@ -170,8 +181,15 @@ func end_round(success: bool):
 	for c in world.get_children():
 		c.free()
 
-	# TODO goto next level or back to level0 depending on success
-	start_game.call_deferred()
+	if go_to_main_menu:
+		$SuccessJingle.stop()
+		$FailJingle.stop()
+		world.hide()
+		hud.hide()
+		main_menu.show()
+		$MainMenuMusic.play()
+	else:
+		start_game.call_deferred()
 
 
 func _on_hero_health_changed(hp):
