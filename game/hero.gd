@@ -6,7 +6,7 @@ signal health_changed(hp)
 signal xp_changed(xp)
 
 var health = 100
-const required_xp = [100, 300, 600, 1000, 1500]  # this is total xp required, not xp required per level
+const required_xp = [100, 300, 600, 1000, 1500, 2100]  # this is total xp required, not xp required per level
 const SPEED = 100.0
 const ATTACK_RANGE = 20
 
@@ -55,8 +55,8 @@ func apply_level_stats():
 		display_xp = xp
 		next_lv_xp = required_xp[level - 1]
 	level = min(required_xp.size(), level)
-	health = health_per_level[level - 1]
-	attack_damage = damage_per_level[level - 1]
+	health = health_per_level[min(level - 1, health_per_level.size() - 1)]
+	attack_damage = damage_per_level[min(level - 1, damage_per_level.size() - 1)]
 
 
 func nav_setup():

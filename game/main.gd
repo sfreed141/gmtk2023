@@ -156,7 +156,8 @@ func end_round(success: bool):
 		round_level += 1
 		hero_xp = hero.xp
 		if round_level == LEVELS.size() + 1:
-			round_over_label.text = "YOU WIN!"
+			hero.apply_level_stats()
+			round_over_label.text = "YOU WIN!" if hero.level >= LEVELS.size() else "Hero completed the dungeon, but only made it to level %d (weak)" % hero.level
 			round_level = 1
 			hero_xp = 0
 			go_to_main_menu = true
