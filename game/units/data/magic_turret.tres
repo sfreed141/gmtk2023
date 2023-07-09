@@ -8,6 +8,3 @@ script = ExtResource("1_om4d2")
 name = "Magic Turret"
 description = "pew pew"
 texture = ExtResource("2_5ed68")
-health = Array[int]([100])
-xp_granted = Array[int]([100])
-damage = Array[int]([20])
